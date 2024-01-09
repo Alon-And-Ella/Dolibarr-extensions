@@ -2,7 +2,7 @@ const axios = require('axios');
 const FormData = require('form-data');
 const fs = require('fs');
 const path = require('path');
-const {username, password} = require("./.cred.json");
+const {username, password, cpanelHost} = require("./.cred.json");
 
 // Set up the API endpoint and credentials
 const apiUrl = `https://${cpanelHost}/execute/Fileman/upload_files`;

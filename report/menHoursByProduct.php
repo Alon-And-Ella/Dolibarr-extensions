@@ -1,23 +1,21 @@
 <?php
 require_once '../main.inc.php';
+
+if (!$user->rights->produit->lire) {
+    dol_print_error('', $user->error);
+	exit;
+}
+
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formfile.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.form.class.php';
 
-// Load user and its permissions
-// $user = new User($db);
-// $user->fetch($_SESSION["dol_login"]);
-// $user->getrights();
+llxHeader('', 'Men Hours per Product Report');
 
-// // Check permissions
-// if (!$user->rights->project->read) {
-//     accessforbidden();
-// }
-
-// Define the SQL query to retrieve the data
-
-//SUM(a.nbhours) as total_hours 
-$sql = "SELECT p.rowid as project_id, p.ref as project_ref, p.title as project_title, count(a.rowid) as total_participants
+$sql = "SELECT p.rowid as project_id, p.ref as project_ref, p.title as project_title, count(a.rowid) as total_participants, 
+            TIMESTAMPDIFF(HOUR, p.date_start_event, p.date_end_event) AS event_hours,
+            TIMESTAMPDIFF(HOUR, event.datep, event.datep2) AS event_hours2
         FROM ".MAIN_DB_PREFIX."projet as p
+        LEFT JOIN ".MAIN_DB_PREFIX."actioncomm as event ON p.rowid = event.fk_project
         LEFT JOIN ".MAIN_DB_PREFIX."eventorganization_conferenceorboothattendee as a ON p.rowid = a.fk_project
         WHERE p.entity = ".$conf->entity."
         GROUP BY p.rowid";
@@ -25,21 +23,25 @@ $sql = "SELECT p.rowid as project_id, p.ref as project_ref, p.title as project_t
 // Execute the SQL query
 $resql = $db->query($sql);
 if ($resql) {
+    
     // Start output
     print '<div class="div-table-responsive">';
     print '<table class="border" width="100%">';
     print '<tr class="liste_titre">';
     print '<td>Project</td>';
-    print '<td>Event</td>';
+    print '<td>Event (H)</td>';
     print '<td>Total Participants</td>';
+    print '<td>Total Hours</td>';
     print '</tr>';
 
     // Fetch and display the results
     while ($obj = $db->fetch_object($resql)) {
+        $hours = $obj->event_hours ? $obj->event_hours : $obj->event_hours2;
         print '<tr>';
         print '<td>' . $obj->project_ref . ' - ' . $obj->project_title . '</td>';
-        print '<td>' . $obj->event_ref . ' - ' . $obj->event_label . '</td>';
+        print '<td>' . $hours . '</td>';
         print '<td>' . $obj->total_participants . '</td>';
+        print '<td>' . $hours * $obj->total_participants . '</td>';
         print '</tr>';
     }
 

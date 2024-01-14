@@ -29,7 +29,7 @@ if ($resql) {
     print '<table class="border" width="100%">';
     print '<tr class="liste_titre">';
     print '<td>Project</td>';
-    print '<td>Event (H)</td>';
+    print '<td>Event (HH)</td>';
     print '<td>Total Participants</td>';
     print '<td>Total Hours</td>';
     print '</tr>';

@@ -12,6 +12,7 @@ async function uploadFile(localFilePath, destinationDir) {
   const formData = new FormData();
   formData.append('dir', destinationDir);
   formData.append('file-1', fs.createReadStream(localFilePath));
+  formData.append('overwrite', "1")
 
   // Set up the request config
   const config = {
@@ -25,16 +26,25 @@ async function uploadFile(localFilePath, destinationDir) {
   };
 
   try {
+
     // Make the POST request using axios
     const response = await axios.post(apiUrl, formData, config);
     if (response.status == 200) {
+      if (response.data.errors?.length > 0) {
+        // file failed to upload - usually because it already exists - try delete an re-upload
+        return false;
+      }
+
       console.log('Success:', localFilePath, destinationDir);
+      return true;
     } else {
       console.error('Error uploading file:', response.data.errors[0]);
+      return false;
     }
   } catch (error) {
     // Handle any errors
     console.error('An error occurred:', error);
+    return false;
   }
 }
 
@@ -69,4 +79,4 @@ async function uploadFolderRecursive(localFolderPath, destinationDir) {
 //uploadFile('./report/main.php', 'public_html/htdocs/report/');
 
 // Recursive folder upload
-uploadFolderRecursive('./report/', 'public_html/htdocs/report/');
+uploadFolderRecursive('./report/', 'public_html/report/');

@@ -7,9 +7,18 @@ this repo is for code we write which should be delployed to the Dolibarr install
   - Home -> הגדרות
                   -> תפריטים
   - לשונית עורך התפריט
-  - add a menu pointing to report/main.php
+  - add a menu pointing to report/main.php ("Menu entry code":reportmain)
   - add a sub-menu pointing to report/menHoursByProduct.php
-- need to deploy the "report" folder to public_html/htdocs/report
+  - to have an icon for the menu at the top menu, a CSS fragment needs to be added:
+  ```css
+  body {
+    dir: rtl;
+  }
+  div.mainmenu.reportmain::before {
+    content: "\f201";
+  }
+  ```
+- need to deploy the "report" folder to public_html/report
 
 
 # Changes to the system:
@@ -31,5 +40,10 @@ this repo is for code we write which should be delployed to the Dolibarr install
   - set USE TLS=true
 
 ## Connect Git
- - using jobs do a one time job running:
+ - using jobs define every 1 hour (at min 20):
+   `cd /home/alonand1/repositories/dolibarr && git reset --hard HEAD && git pull`
+ - using jobs define every 1 hour (at min 30):
    `rsync -av --update /home/alonand1/repositories/dolibarr/htdocs/ /home/alonand1/public_html/`
+
+## Translations:
+- in table llx_c_currencies, change ILS to שקל

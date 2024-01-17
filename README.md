@@ -29,6 +29,15 @@ this repo is for code we write which should be delployed to the Dolibarr install
 - Base of prices per default (with versus without tax) when adding new sale prices: Inc. Tax
 - שדות נוספים:
   - איזור גאוגרפי, type:select, values: 1,צפון\n ...
+  - מקסימום משתתפים
+  - איש קשר
+  - טלפון איש קשר
+
+## Company settings:
+- מס מכירה לא פעיל
+
+## Vendor module
+- Use a 3 steps approval when amount (without tax) is higher than... - put "1"
 
 ## EMAIL setup
 - in cPanel :
@@ -43,7 +52,10 @@ this repo is for code we write which should be delployed to the Dolibarr install
  - using jobs define every 1 hour (at min 20):
    `cd /home/alonand1/repositories/dolibarr && git reset --hard HEAD && git pull`
  - using jobs define every 1 hour (at min 30):
-   `rsync -av --update /home/alonand1/repositories/dolibarr/htdocs/ /home/alonand1/public_html/`
+   `rsync -av -I --update /home/alonand1/repositories/dolibarr/htdocs/ /home/alonand1/public_html/`
 
 ## Translations:
 - in table llx_c_currencies, change ILS to שקל
+
+## UI right to left
+- in global settings: MAIN_CHECKBOX_LEFT_COLUMN=1

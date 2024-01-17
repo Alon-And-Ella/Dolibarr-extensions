@@ -16,29 +16,21 @@ class ActionsAlonAndElla
 
 		$error = 0; // Error counter
 
-        dol_syslog('A&E DoActions called action: ' . $action . ' ctx: ' . $parameters['currentcontext'] . ' obj:' . $object->element . ' fields: ' . count($parameters['arrayfields']));
+        dol_syslog('A&E DoActions called! action: ' . $action . ' ctx: ' . $parameters['currentcontext'] . ' obj:' . $object->element);
 
 
-		/* print_r($parameters); print_r($object); echo "action: " . $action; */
 		//if (in_array($parameters['currentcontext'], array('printFieldPreListTitle'))) {	   
-            //if ($action === 'list') {
-                foreach ($parameters['arrayfields'] as $key => &$field) {
-                    // Example: Modify the CSS classes for a field with key 'my_hidden_field'
-                    //if ($key === 'p.minbuyprice') {
-                    //$field['css'] .= ' hidden'; // Add the 'hidden' class
-                    if ($key === 'p.minbuyprice' || $key === 'p.sellprice') {
-                        dol_syslog('A&E field is being hidden: ' . $key );
-                        $field['checked'] = 0;
-                    }
-                    //dol_syslog('A&E field: ' . $key );
-                    //}
+        if ($object->element === 'product' && !empty($parameters['arrayfields'])) {
+            foreach ($parameters['arrayfields'] as $key => &$field) {
+                if ($key === 'p.minbuyprice' || $key === 'p.sellprice') {
+                    dol_syslog('A&E field is being hidden: ' . $key );
+                    $field['checked'] = 0;
                 }
-            //}
-        //}
+            }
+        }
 
 		if (!$error) {
-			//$this->resprints = 'A text to show';
-			return 1; // or return 1 to replace standard code
+			return 0; 
 		} else {
 			$this->errors[] = 'Error message';
 			return -1;

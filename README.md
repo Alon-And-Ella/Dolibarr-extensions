@@ -59,3 +59,9 @@ this repo is for code we write which should be delployed to the Dolibarr install
 
 ## UI right to left
 - in global settings: MAIN_CHECKBOX_LEFT_COLUMN=1
+
+## ref generated for services
+- in global settings: PRODUCT_GENERATE_REF_AFTER_FORM=1
+- in Product Module settings=> enable "Elephant" and set mask to {000000}
+
+

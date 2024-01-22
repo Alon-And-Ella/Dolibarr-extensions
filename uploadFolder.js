@@ -79,4 +79,9 @@ async function uploadFolderRecursive(localFolderPath, destinationDir) {
 //uploadFile('./report/main.php', 'public_html/htdocs/report/');
 
 // Recursive folder upload
-uploadFolderRecursive('./report/', 'public_html/report/');
+//uploadFolderRecursive('./report/', 'public_html/report/');
+
+//uploadFolderRecursive('./AlonAndElla/', 'public_html/custom/alonandella/');
+//uploadFile('./AlonAndElla/webroot/composerExtractor.php', 'public_html/report/webroot/');
+//uploadFile('./AlonAndElla/composer.json', 'public_html/report/');
+uploadFile('./report/simple.php', 'public_html/report/');

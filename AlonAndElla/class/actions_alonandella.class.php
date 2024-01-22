@@ -19,12 +19,20 @@ class ActionsAlonAndElla
         dol_syslog('A&E DoActions called! action: ' . $action . ' ctx: ' . $parameters['currentcontext'] . ' obj:' . $object->element);
 
 
+
+
 		//if (in_array($parameters['currentcontext'], array('printFieldPreListTitle'))) {	   
-        if ($object->element === 'product' && !empty($parameters['arrayfields'])) {
-            foreach ($parameters['arrayfields'] as $key => &$field) {
-                if ($key === 'p.minbuyprice' || $key === 'p.sellprice') {
-                    dol_syslog('A&E field is being hidden: ' . $key );
-                    $field['checked'] = 0;
+        if ($object->element === 'product') {
+            if ($action == 'create') {
+
+            } else {
+                if (!empty($parameters['arrayfields'])) {
+                    foreach ($parameters['arrayfields'] as $key => &$field) {
+                        if ($key === 'p.minbuyprice' || $key === 'p.sellprice') {
+                            dol_syslog('A&E field is being hidden: ' . $key );
+                            $field['checked'] = 0;
+                        }
+                    }
                 }
             }
         }

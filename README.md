@@ -11,15 +11,22 @@ this repo is for code we write which should be delployed to the Dolibarr install
   - add a sub-menu pointing to report/menHoursByProduct.php
   - to have an icon for the menu at the top menu, a CSS fragment needs to be added:
   ```css
-  body {
-    dir: rtl;
-  }
   div.mainmenu.reportmain::before {
     content: "\f201";
   }
   ```
 - need to deploy the "report" folder to public_html/report
 
+## reports based on PHPReport.php (https://github.com/vernes/PHPReport)
+- we need the package manager 'composer' to be able to install its dependecies (phpoffice):
+  - with no ssh to the machine, follow this:
+    - deploy the `./report/webroot/composerExtractor.php`
+    - download `Composer.phar` - make sure it has same case as here (the code is case sensitive)
+    - upload it also into webroot
+    - upload the report/composer.json
+    - run the code `/report/webroot/composerExtractor.php`
+    - that is it. for better security - remove this file from the server.
+  - upload the xlsx templates and other php who use PHPReport - they would now work
 
 # Changes to the system:
 ## defaults [relative-url, field, value]
@@ -59,6 +66,12 @@ this repo is for code we write which should be delployed to the Dolibarr install
 
 ## UI right to left
 - in global settings: MAIN_CHECKBOX_LEFT_COLUMN=1
+- a CSS fragment needs to be added:
+  ```css
+  body {
+    dir: rtl;
+  }
+  ```
 
 ## ref generated for services
 - in global settings: PRODUCT_GENERATE_REF_AFTER_FORM=1

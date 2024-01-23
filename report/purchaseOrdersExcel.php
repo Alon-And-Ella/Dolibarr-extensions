@@ -18,6 +18,27 @@ $config=array(
     'templateDir'=>$templateDir
 );
 
+// Status to filter:
+$whereCondition = "";
+$status = GETPOST("status", "alpha");
+if ($status !== "") {
+    $statusArray = explode(',', $status);
+
+    // If there is only one status value, use a simple equality comparison
+    if (count($statusArray) === 1) {
+        $whereCondition = "WHERE fk_statut = " . $statusArray[0];
+    } else if (count($statusArray) > 1) {
+        // If there are multiple status values, use an "IN" clause
+        $whereInValues = implode(',', $statusArray);
+        $whereCondition = "WHERE fk_statut IN (" . $whereInValues . ")";
+    }
+}
+
+$title = GETPOST("title", "alpha");
+if ($title === "") {
+    $title = $status;
+}
+
 // Get the purchase orders DATA
 // ----------------------------
 $sql = "SELECT
@@ -37,8 +58,8 @@ FROM
     INNER JOIN llx_societe AS v ON po.fk_soc = v.rowid
     LEFT OUTER JOIN llx_user AS u ON po.fk_user_approve = u.rowid
     LEFT OUTER JOIN llx_user AS u2 ON po.fk_user_approve2 = u2.rowid
-    LEFT OUTER JOIN llx_c_payment_term AS pt ON po.fk_cond_reglement = pt.rowid
-WHERE fk_statut = 2"; // -- Assuming '2' represents the status for approved purchase orders
+    LEFT OUTER JOIN llx_c_payment_term AS pt ON po.fk_cond_reglement = pt.rowid 
+" . $whereCondition;
 
 
 // Execute the SQL query
@@ -73,7 +94,7 @@ if ($resql) {
         array(
         array(
             'id'=>'header',
-            'data'=>array('date'=>date('Y-m-d')),
+            'data'=>array('date'=>date('Y-m-d'), 'title'=>$title),
             'format'=>array(
                     'date'=>array('datetime'=>'d/m/Y')
                 )
@@ -94,4 +115,6 @@ if ($resql) {
 
 
     echo $R->render('excel');
+} else {
+    echo "Error in query";
 }

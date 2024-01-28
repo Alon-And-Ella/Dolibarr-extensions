@@ -54,6 +54,7 @@ this repo is for code we write which should be delployed to the Dolibarr install
   - Email sending methof: SMTP
   - set host/port/user (accounting@alonandella...)/ pwd
   - set USE TLS=true
+- Add an SPF record: in the DNS settings, add TXT type record Name: `@` and Value: `v=spf1 ip4:195.201.169.229 include:alonandella-dev.site ~all`
 
 ## Connect Git
  - using jobs define every 1 hour (at min 20):
@@ -62,7 +63,8 @@ this repo is for code we write which should be delployed to the Dolibarr install
    `rsync -av -I --update /home/alonand1/repositories/dolibarr/htdocs/ /home/alonand1/public_html/`
 
 ## Translations:
-- in table llx_c_currencies, change ILS to שקל
+- settings->dictionaries->מטבעות
+  - change ILS to שקל
 
 ## UI right to left
 - in global settings: MAIN_CHECKBOX_LEFT_COLUMN=1
@@ -77,4 +79,11 @@ this repo is for code we write which should be delployed to the Dolibarr install
 - in global settings: PRODUCT_GENERATE_REF_AFTER_FORM=1
 - in Product Module settings=> enable "Elephant" and set mask to {000000}
 
+## Events
+- settings->dictionaries->סוגי אירועי יומן
+  - disable anything not relevant
+  - add a new type for volenteering
 
+
+## Global Settings:
+- PROJECT_ALLOW_TO_LINK_FROM_OTHER_COMPANY=all

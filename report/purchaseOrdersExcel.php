@@ -20,7 +20,8 @@ $config=array(
 
 // Status to filter:
 $whereCondition = "";
-$status = GETPOST("status", "alpha");
+$status = GETPOST("status", 'intcomma');
+
 if ($status !== "") {
     $statusArray = explode(',', $status);
 

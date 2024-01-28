@@ -16,7 +16,7 @@ class ActionsAlonAndElla
 
 		$error = 0; // Error counter
 
-        dol_syslog('A&E DoActions called! action: ' . $action . ' ctx: ' . $parameters['currentcontext'] . ' obj:' . $object->element);
+        dol_syslog('A&E doActions called! action: ' . $action . ' ctx: ' . $parameters['currentcontext'] . ' obj:' . $object->element);
 
 
 
@@ -44,5 +44,47 @@ class ActionsAlonAndElla
 			return -1;
 		}
 	}
+
+	public function formConfirm($parameters, &$object, &$action, $hookmanager) {
+		global $user;
+
+		//dol_syslog('A&E formConfirm called! action: ' . $action . ' ctx: ' . $parameters['currentcontext'] . ' obj:' . $object->element);
+
+		// if ($object->element === "commande") {
+		// 	dol_syslog('fk_project'.$object->fk_project);
+		// 	if (!empty($object->fk_project)) {
+		// 		$res = $object->fetch_project();
+		// 		if ($res > 0) {
+		// 			dol_syslog('event.max attandees:'.$object->project->max_attendees);
+		// 		}
+		// 	}
+		// }
+
+		if ($action === "confirm_validate" && $object->element === "commande") {
+			// When an order is validated, and it is connected to a project we import the 
+			// max-attendees of the service into the project
+			if (!empty($object->fk_project)) {
+				$res = $object->fetch_project();
+				if ($res > 0) {
+					if (!empty($object->lines)) {
+						foreach ($object->lines as $line) {
+							$res = $line->fetch_product();
+							if ($res  > 0 ) {
+								//dol_syslog("line" . $line->product->label." max_vol:". $line->product->array_options['options_max_volenteers']);
+								if ($line->product->array_options['options_max_volenteers'] > 0) {
+									$object->project->max_attendees = $line->product->array_options['options_max_volenteers'];
+									$object->project->update($user, 1);
+								}
+								// only uses the first line - TODO what if more than one?
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+
+	}
+
 
 }

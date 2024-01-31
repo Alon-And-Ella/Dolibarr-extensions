@@ -228,12 +228,16 @@ class modAlonAndElla extends DolibarrModules
 		// Boxes/Widgets
 		// Add here list of php file(s) stored in alonandella/core/boxes that contains a class to show a widget.
 		$this->boxes = array(
-			//  0 => array(
-			//      'file' => 'alonandellawidget1.php@alonandella',
-			//      'note' => 'Widget provided by AlonAndElla',
-			//      'enabledbydefaulton' => 'Home',
-			//  ),
-			//  ...
+			 0 => array(
+			     'file' => 'test_box.php@alonandella',
+			     'note' => 'Test Widtget by Ariel',
+			     'enabledbydefaulton' => 'Home',
+			 ),
+			 1 => array(
+				'file' => 'my_tasks_box.php@alonandella',
+				'note' => 'המשימות שלי',
+				'enabledbydefaulton' => 'Home',
+			)
 		);
 
 		// Cronjobs (List of cron jobs entries to add when module is enabled)

@@ -84,4 +84,9 @@ async function uploadFolderRecursive(localFolderPath, destinationDir) {
 //uploadFolderRecursive('./AlonAndElla/', 'public_html/custom/alonandella/');
 //uploadFile('./AlonAndElla/webroot/composerExtractor.php', 'public_html/report/webroot/');
 //uploadFile('./AlonAndElla/composer.json', 'public_html/report/');
-uploadFile('./report/simple.php', 'public_html/report/');
+//uploadFile('./report/simple.php', 'public_html/report/');
+
+uploadFile('./AlonAndElla/class/actions_alonandella.class.php', 'public_html/custom/alonandella/class');
+//uploadFile('./AlonAndElla/core/modules/modAlonAndElla.class.php', 'public_html/custom/alonandella/core/modules');
+//uploadFile('./AlonAndElla/core/triggers/interface_99_modAlonAndElla_MyTrigger.class.php', 'public_html/custom/alonandella/core/triggers');
+//uploadFile('./AlonAndElla/core/boxes/my_tasks_box.php', 'public_html/custom/alonandella/core/boxes');

@@ -62,9 +62,12 @@ this repo is for code we write which should be delployed to the Dolibarr install
  - using jobs define every 1 hour (at min 30):
    `rsync -av -I --update /home/alonand1/repositories/dolibarr/htdocs/ /home/alonand1/public_html/`
 
-## Translations:
-- settings->dictionaries->מטבעות
-  - change ILS to שקל
+## מילונים:
+- settings->dictionaries
+  ->מטבעות
+    - change ILS to שקל
+  ->סוגים
+    פרוייקטים/פנימי/מלווה/REP
 
 ## UI right to left
 - in global settings: MAIN_CHECKBOX_LEFT_COLUMN=1

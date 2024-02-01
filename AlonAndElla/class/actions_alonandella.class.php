@@ -95,7 +95,6 @@ class ActionsAlonAndElla
 
 	}
 
-
 	public function addMoreActionsButtons($parameters, &$object, &$action, $hookmanager) {
 		dol_syslog('A&E addMoreActionsButtons called! action: ' . $action . ' ctx: ' . $parameters['currentcontext'] . ' obj:' . $object->element);
 		global $conf, $user, $langs, $db;
@@ -135,14 +134,116 @@ class ActionsAlonAndElla
 
 					$this->cloneProjectTasks($db, $user, $fromProjectId, $toId);
 					print '<div>משימות הועתקו בהצלחה</div>';
-				} else {
+				} else if ($action === "") {
 					print dolGetButtonAction('', 'יבא משימות', 'default', $_SERVER["PHP_SELF"].'?action=import_tasks&token='.newToken().'&id='.$object->id.'&mode=init', '');
 				}
 			}
 		}
 	}
 
+	public function addOpenElementsDashboardGroup($parameters, &$object, &$action, $hookmanager) {
+		$dashboardgroup = $parameters['dashboardgroup'];
+		if (!empty($dashboardgroup)){
+			$hookmanager->resArray = array();
+			$projectGroup = $dashboardgroup['project'];
+			if (!empty($projectGroup)) {
+				array_unshift($projectGroup['stats'], 'draft_projects');
 
+				$hookmanager->resArray['project'] = $projectGroup;
+			}
+
+			$orderGroup = $dashboardgroup['order_supplier'];
+			if (!empty($orderGroup)) {
+				array_unshift($orderGroup['stats'], 'order_supplier_await_approval');
+
+				$hookmanager->resArray['order_supplier'] = $orderGroup;
+			}
+
+			return 0;
+		}
+		return -1;
+	}
+
+
+	public function addOpenElementsDashboardLine($parameters, &$object, &$action, $hookmanager) {
+		global $conf, $user, $langs, $db;
+
+		$draftProjectWB = new WorkboardResponse();
+		$draftProjectWB->id = "1";
+		$draftProjectWB->warning_delay = 'טיוטות מתעכבות';
+		$draftProjectWB->label = "טיוטא";
+		$draftProjectWB->labelShort = "טיוטא";
+		$draftProjectWB->url = DOL_URL_ROOT."/projet/list.php?search_status=0";
+		$draftProjectWB->img = img_object('', "project");
+		$draftProjectWB->nbtodo = 0;
+		$draftProjectWB->nbtodolate = 0;
+		$draftProjectWB->warning_delay = 7;
+		
+		$now = dol_now('gmt');
+		// Draft projects
+		$sql = "SELECT 
+					p.rowid AS project_id, 
+					p.datec AS creation_date
+				FROM ".MAIN_DB_PREFIX."projet AS p
+				WHERE p.fk_statut = 0";
+
+		$resql = $db->query($sql);
+		if ($resql) {
+			while ($obj = $db->fetch_object($resql)) {
+				$draftProjectWB->nbtodo++;
+
+				$tdate_create = $db->jdate($obj->creation_date);
+				// Calculate the difference in seconds
+				$diffInSeconds = $now - $tdate_create;
+
+				// Calculate the number of days
+				$daysDifference = floor($diffInSeconds / (60 * 60 * 24));
+				if ($daysDifference > 7) {
+					$draftProjectWB->nbtodolate++;
+				}
+			}
+			$db->free($resql);
+			$hookmanager->resArray['draft_projects'] = $draftProjectWB;
+			
+		}
+
+		$awatingApproval = new WorkboardResponse();
+		$awatingApproval->id = "1";
+		$awatingApproval->warning_delay = 'ממתינות לאישור';
+		$awatingApproval->label = "ממתינות לאישור";
+		$awatingApproval->labelShort = "ממתינות לאישור";
+		$awatingApproval->url = DOL_URL_ROOT."/fourn/commande/list.php?search_status=1";
+		$awatingApproval->img = img_object('', "order");
+		$awatingApproval->nbtodo = 2;
+		$awatingApproval->nbtodolate = 1;
+		$awatingApproval->warning_delay = 4;
+
+		// Open Orders
+		$sql = "SELECT rowid , date_valid FROM ".MAIN_DB_PREFIX."commande_fournisseur WHERE fk_statut=1";
+		
+		$resql = $db->query($sql);
+		if ($resql) {
+			while ($obj = $db->fetch_object($resql)) {
+				$awatingApproval->nbtodo++;
+
+				$tdate_validated = $db->jdate($obj->datev);
+				// Calculate the difference in seconds
+				$diffInSeconds = $now - $tdate_validated;
+
+				// Calculate the number of days
+				$daysDifference = floor($diffInSeconds / (60 * 60 * 24));
+				if ($daysDifference > 4) {
+					$awatingApproval->nbtodolate++;
+				}
+			}
+			$db->free($resql);
+			$hookmanager->resArray['order_supplier_await_approval'] = $awatingApproval;
+			
+		}
+
+		$hookmanager->resArray['order_supplier_await_approval'] = $awatingApproval;
+		return 0;
+	}
 
 
 	function cloneProjectTasks($db, $user, $fromid, $targetId) {

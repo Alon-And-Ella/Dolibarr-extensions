@@ -87,6 +87,11 @@ this repo is for code we write which should be delployed to the Dolibarr install
   - disable anything not relevant
   - add a new type for volenteering
 
+## Download ICS
+- in order to be able to download ICS need to define "export link password" - only once.
+  go to: הגדרות-->מודולים/יישומים-->אירועים/לוח שנה-->ייצוא ליומן-->מפתח לאשר הקישור יצוא
+- in order to update event details go to tab:״פרוייקט״
+- in order the ICS will be valid need to define "כנס או דוכן" and it's must be in status ״מאושר״.
 
 ## Global Settings:
 - PROJECT_ALLOW_TO_LINK_FROM_OTHER_COMPANY=all

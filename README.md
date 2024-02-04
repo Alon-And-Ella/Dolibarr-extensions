@@ -93,5 +93,23 @@ this repo is for code we write which should be delployed to the Dolibarr install
 - in order to update event details go to tab:״פרוייקט״
 - in order the ICS will be valid need to define "כנס או דוכן" and it's must be in status ״מאושר״.
 
-## Global Settings:
+## Global Settings: (https://wiki.maxcorp.org/configuration-special-dolibarr/)
 - PROJECT_ALLOW_TO_LINK_FROM_OTHER_COMPANY=all
+- MAIN_APPLICATION_TITLE=שם למערכת
+- PROJECT_ALLOW_COMMENT_ON_PROJECT=1 allows comments tab on projects
+- PROJECT_ALLOW_COMMENT_ON_TASK=1
+
+- to check
+  - PROJECT_CREATE_NO_DRAFT??
+  - PROJECT_FILTER_FOR_THIRDPARTY_LIST??
+  - PROJECT_LIST_SHOW_STARTDATE
+  - SUPPLIER_ORDER_NO_DIRECT_APPROVE?? - separate valudate and approve always
+  - MAIN_ADD_PDF_BACKGROUND
+  - MAIN_PDF_FORCE_FONT
+
+
+
+## Font for PDF
+- convert any ttf file (supporting hebrew) - I used Alef to tcpdf
+- upload to `htdocs/includes/tecnickcom/tcpdf/fonts/`
+- change main.lang. example: `FONTFORPDF=alef`

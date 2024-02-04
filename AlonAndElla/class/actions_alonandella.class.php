@@ -297,4 +297,53 @@ class ActionsAlonAndElla
 		}
 	}
 
+
+	/*
+	  $parameters = array(
+			'object' => $object,
+			'outputlangs' => $outputlangs,
+			'hidedetails' => $hidedetails,
+			'hidedesc' => $hidedesc,
+			'hideref' => $hideref
+		);
+
+		$object->cols
+	 */
+	public function defineColumnField($parameters, &$object, &$action, $hookmanager) {
+		dol_syslog('A&E defineColumnField called! action: ' . $action . ' ctx: ' . $parameters['currentcontext'] . ' obj:' . $object->description);
+        if ($object->name === 'cornas' && $object->description === "תבנית מלאה של הזמנת רכש") {
+			$desc = $object->cols['desc'];
+			$vat = $object->cols['vat'];
+			$qty = $object->cols['qty'];
+			$unit = $object->cols['unit']; 
+			$totalexcltax = $object->cols['totalexcltax'];
+
+			// Hide vat
+			$vat['status'] = false;
+
+			// Cahnge order:
+			$totalexcltax['rank'] = 0;
+			$qty['rank'] = 10;
+			$unit['rank'] = 20;
+			$desc['rank'] = 30;
+
+			// Change Alignment:
+			$desc['title']['align'] = 'R';
+			$desc['content']['align'] = 'R';
+			$desc['border-left'] = true;
+			$totalexcltax['border-left'] = false;
+
+			//$object->tabTitleHeight=15;
+
+			$hookmanager->resArray['desc'] = $desc;
+			$hookmanager->resArray['vat'] = $vat;
+			$hookmanager->resArray['qty'] = $qty;
+			$hookmanager->resArray['unit'] = $unit;
+			$hookmanager->resArray['totalexcltax'] = $totalexcltax;
+
+			// dol_syslog('A&E defineColumnField - returned:'.print_r($hookmanager->resArray, true));
+
+		}
+		return 0;
+	}
 }

@@ -44,7 +44,7 @@ df = pd.read_excel(excel_file_path)
 
 # Dolibarr API details
 api_url = "https://www.alonandella-dev.site/api/index.php/products"
-authorization_key = "86mlnObr0JGd1G2dntIX8FJ4Uf20HC3i"
+authorization_key = "<dolibarr's user auth-key>"
 
 # Iterate through rows in the DataFrame and make API calls
 for index, row in df.iterrows():

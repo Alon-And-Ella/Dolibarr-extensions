@@ -98,12 +98,14 @@ this repo is for code we write which should be delployed to the Dolibarr install
 - MAIN_APPLICATION_TITLE=שם למערכת
 - PROJECT_ALLOW_COMMENT_ON_PROJECT=1 allows comments tab on projects
 - PROJECT_ALLOW_COMMENT_ON_TASK=1
+- PROJECT_ENABLE_PUBLIC=1 self registration of lead under: `/public/project/new.php`
 
 - to check
+  - SOCIETE_DISABLE_STATE??
   - PROJECT_CREATE_NO_DRAFT??
   - PROJECT_FILTER_FOR_THIRDPARTY_LIST??
   - PROJECT_LIST_SHOW_STARTDATE
-  - SUPPLIER_ORDER_NO_DIRECT_APPROVE?? - separate valudate and approve always
+  - SUPPLIER_ORDER_NO_DIRECT_APPROVE?? - separate validate and approve always
   - MAIN_ADD_PDF_BACKGROUND
   - MAIN_PDF_FORCE_FONT
 
@@ -113,3 +115,8 @@ this repo is for code we write which should be delployed to the Dolibarr install
 - convert any ttf file (supporting hebrew) - I used Alef to tcpdf
 - upload to `htdocs/includes/tecnickcom/tcpdf/fonts/`
 - change main.lang. example: `FONTFORPDF=alef`
+
+
+## PR to watch:
+- https://github.com/Dolibarr/dolibarr/pull/28022
+- https://github.com/Dolibarr/dolibarr/pull/28026
